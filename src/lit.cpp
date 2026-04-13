@@ -67,10 +67,10 @@ class ida_local literal_db
 public:
 
 	lit_func_t find_func(const char* funcname) const {
-		return m_functions.find(funcname); 
+		return m_functions.find(funcname);
 	}
-	bool is_func(const lit_func_t& f) const { 
-		return f != m_functions.end(); 
+	bool is_func(const lit_func_t& f) const {
+		return f != m_functions.end();
 	}
 	const lit_arg_t* find_arg (const lit_func_t& lfunc, uint32 argN) const
 	{
@@ -80,8 +80,8 @@ public:
 		return NULL;
 	}
 
-	lit_struct_t find_struct(const char* strucname) const { 
-		return m_structures.find(strucname); 
+	lit_struct_t find_struct(const char* strucname) const {
+		return m_structures.find(strucname);
 	}
 	bool is_struct(const lit_struct_t& s) const {
 		return s != m_structures.end();
@@ -220,7 +220,7 @@ struct ida_local lit_visitor_t : public ctree_visitor_t
 	bool cmtModified;
 	user_cmts_t *cmts;
 
-	lit_visitor_t(cfunc_t *cfunc) : ctree_visitor_t(CV_FAST), func(cfunc), cmtModified(false) 
+	lit_visitor_t(cfunc_t *cfunc) : ctree_visitor_t(CV_FAST), func(cfunc), cmtModified(false)
 	{
 		cmts = restore_user_cmts(cfunc->entry_ea);
 		if(cmts == NULL)
@@ -337,7 +337,7 @@ cexpr_t* lit_visitor_t::makeEnumExpr(const char* name, uint64 val, cexpr_t *cons
 #if IDA_SDK_VERSION < 850
 	const_t memb = get_enum_member_by_name(name);
 	if(memb == BADNODE) {
-		if(!importEnumFromTils(name, val)) 
+		if(!importEnumFromTils(name, val))
 			return NULL;
 		memb = get_enum_member_by_name(name);
 		if(memb == BADNODE)
@@ -425,7 +425,7 @@ bool lit_visitor_t::chkCallArg(cexpr_t *expr, qstring &comment)
 	lit_func_t lfunc = lit->find_func(funcname.c_str());
 	if(!lit->is_func(lfunc)) {
 		char lastChar = funcname.last();
-		if(lastChar != 'A' && lastChar != 'W') 
+		if(lastChar != 'A' && lastChar != 'W')
 			return false;
 		funcname.remove_last();
 		lfunc = lit->find_func(funcname.c_str());
@@ -469,7 +469,7 @@ bool lit_visitor_t::chkStrucMemb(cexpr_t *memb, cexpr_t *cons, qstring &comment)
 		return false;
 
 	// remove first underlining from struct typename
-	if (typeName[0] == '_') 
+	if (typeName[0] == '_')
 		typeName.remove(0, 1);
 
 	lit_struct_t ls = lit->find_struct(typeName.c_str());
@@ -479,7 +479,7 @@ bool lit_visitor_t::chkStrucMemb(cexpr_t *memb, cexpr_t *cons, qstring &comment)
 			return false;
 		typeName.remove_last();
 		ls = lit->find_struct(typeName.c_str());
-		if (!lit->is_struct(ls)) 
+		if (!lit->is_struct(ls))
 			return false;
 	}
 
@@ -550,7 +550,7 @@ bool lit_visitor_t::chkConstType(cexpr_t *expr, cexpr_t *cons, qstring &comment)
 			newExp->type = expr->type;
 			replaceExp(func, expr, newExp);
 			return true;
-		}		
+		}
 		return false;
 	}	else {
 		//TODO: add more typenames here
@@ -583,7 +583,7 @@ int idaapi lit_visitor_t::visit_expr(cexpr_t *expr)
 			cexpr_t *memb = expr->theother(cons);
 			if(memb->op == cot_memref || memb->op == cot_memptr)
 				changed |= chkStrucMemb(memb, cons, comment);
-			else 
+			else
 				changed |= chkConstType(expr, cons, comment);
 		}
 	}	else if (expr->op == cot_cast && expr->x->op == cot_num) {
@@ -652,7 +652,7 @@ bool lit_overrideTypes()
 void lit_init()
 {
 	char litfname[QMAXPATH];
-	if(getsysfile(litfname, QMAXPATH, "literal.txt", PLG_SUBDIR)) {
+	if(getPluginsFile(litfname, QMAXPATH, "literal.txt")) {
 		linput_t *litfile = open_linput(litfname, false);
 		if (litfile) {
 			lit = new literal_db();

@@ -282,3 +282,5 @@ qstring unique_nameC(const char* name, const char* separator, IsUniqueFunc isUni
 	Log(llError, "FIXME! unique_nameC '%s' is not unique\n", uName.c_str());
 	return uName;
 }
+
+char* getPluginsFile(char *buf, size_t bufsize, const char *filename);

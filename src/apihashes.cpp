@@ -464,8 +464,8 @@ void apihashes_init()
 	static ushort alg = 0;
 	static int64 basis = 0;
 	static int64 prime = 0;
-	char buf[4096];
-	getsysfile(buf, 4096, "apilist.txt", PLG_SUBDIR);
+	char buf[QMAXPATH];
+	getPluginsFile(buf, QMAXPATH, "apilist.txt");
 	qstring format =
 		"STARTITEM 1\n"
 		//title

@@ -24,6 +24,7 @@
 #include <hexrays.hpp>
 #include <bytes.hpp>
 #include <kernwin.hpp>
+#include <diskio.hpp>
 #include <pro.h>
 #include "warn_on.h"
 
@@ -789,4 +790,13 @@ int LogTail(LogLevel level, const char *fmt, ...)
 	int res = vmsg(fmt, va);
 	va_end(va);
   return res;
+}
+
+//------------------------------------------------
+char* getPluginsFile(char *buf, size_t bufsize, const char *filename)
+{
+	char *res = getsysfile(buf, bufsize, filename, PLG_SUBDIR "/hrtng");
+	if(res)
+		return res;
+	return getsysfile(buf, bufsize, filename, PLG_SUBDIR);
 }

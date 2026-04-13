@@ -6,10 +6,11 @@
 #pragma GCC diagnostic ignored "-Wswitch"
 #pragma GCC diagnostic ignored "-Wpedantic"
 #pragma GCC diagnostic ignored "-Wvarargs"
+#pragma GCC diagnostic push
 #ifdef __MAC__
 #pragma GCC diagnostic ignored "-Wnullability-completeness"
+#pragma clang diagnostic ignored "-Wnontrivial-memaccess"
 #endif // __MAC__
-#pragma GCC diagnostic push
 
 //temporary fix for gcc 13.1.1 and IDA81
 #include <cstdint>
