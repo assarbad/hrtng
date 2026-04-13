@@ -47,7 +47,7 @@ jobs:
     steps:
       - name: Setup MSBuild
         if: matrix.os.name == 'windows'
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v3
 
       - name: Setup Visual Studio 2022
         if: matrix.os.name == 'windows'
@@ -94,7 +94,7 @@ jobs:
           cp -v ./build/${{ matrix.os.mask }} artifacts/
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: hrtng-ida${{ matrix.ida.version }}-${{ matrix.os.name }}
           path: artifacts/*
@@ -129,10 +129,10 @@ jobs:
       - name: Create archive
         shell: bash
         run: |
-          #cp -v logo.jpg artifacts/
-          #cp -v README.md artifacts/
+          cp -v logo.jpg artifacts/
+          cp -v README.md artifacts/
           cp -v bin/plugins/*.txt artifacts/
-          cp -v ida-plugin.json artifacts/
+          jq '.plugin.idaVersions = "==${{ matrix.ida.version }}"' ida-plugin.json > artifacts/ida-plugin.json
           cd artifacts
           zip -r ../hrtng-ida${{ matrix.ida.version }}.zip *
           cd ..
